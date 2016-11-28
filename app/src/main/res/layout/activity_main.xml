@@ -34,7 +34,7 @@
         android:layout_toEndOf="@+id/DevNames" />
 
     <ImageView
-        android:src="@drawable/diceRoll"
+        android:src="@drawable/diceroll"
         android:scaleType="centerCrop"
         android:id="@+id/diceImage"
         android:layout_width="150dp"
