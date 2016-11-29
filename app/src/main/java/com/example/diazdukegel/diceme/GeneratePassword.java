@@ -3,6 +3,7 @@ package com.example.diazdukegel.diceme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -17,7 +18,8 @@ import java.util.HashMap;
  */
 
 public class GeneratePassword extends AppCompatActivity {
-    private HashMap<Integer,String> dictionaryOfWords;
+    private HashMap<Integer,String> dictionary;
+    MainActivity main;
     private Button genPassBtn;
     private Diceware dicePass;
     private Spinner numOfWordsSpinner;
@@ -32,20 +34,29 @@ public class GeneratePassword extends AppCompatActivity {
         setContentView(R.layout.generate_pass);
         genPassBtn = (Button)findViewById(R.id.genPassBtn);
         numOfWordsSpinner = (Spinner)findViewById(R.id.wordNumSpinner);
-        passOutputTextView = (TextView)findViewById(R.id.outputTextView);
+        passOutputTextView = (TextView)findViewById(R.id.passwordOutputTextView);
         Intent callerIntent = getIntent();
-        dictionaryOfWords = (HashMap<Integer, String>)callerIntent.getSerializableExtra(
-                "dicitonaryOfWords");
+        /*dictionaryOfWords = (HashMap<Integer, String>)callerIntent.getSerializableExtra(
+                "dicitonaryOfWords");*/
 
         genPassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                main = new MainActivity();
                 numOfWords = Integer.parseInt(numOfWordsSpinner.getSelectedItem().toString());
-                dicePass = new Diceware(numOfWords,dictionaryOfWords);
+                Log.d("numOfWOrds","NumOfWOrds"+Integer.toString(numOfWords));
+                dictionary = main.getDictionary();
+                dicePass = new Diceware(numOfWords,dictionary);
                 passwordOutput = dicePass.getPassword();
                 passOutputTextView.setText(passwordOutput);
             }
         });
-
     }
+
+    @Override
+    public void onBackPressed(){
+        setResult(RESULT_OK);
+        finish();
+    }
+
 }

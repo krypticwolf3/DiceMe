@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DiceMe</string>
     <string name="instNumOfWords">Select the number of words to generate:</string>
-    <array name="numberOfWords">
+    <string-array name="numberOfWords">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -9,5 +9,5 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
-    </array>
+    </string-array>
 </resources>
