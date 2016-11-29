@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">DiceMe</string>
     <string name="instNumOfWords">Select the number of words to generate:</string>
+    <string name="savedPasswords">Saved Passwords</string>
+    <string name="loadDictionary">Load dictionaries</string>
     <string-array name="numberOfWords">
         <item>1</item>
         <item>2</item>

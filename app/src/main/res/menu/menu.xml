@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 <item
-    android:id="@+id/dummy"
-    android:title="Dummy"
+    android:id="@+id/action_load_dictionaries"
+    android:title="@string/loadDictionary"
+    android:icon="@drawable/ic_action_menu_white"
+    />
+
+<item
+    android:id="@+id/action_savedPasswords"
+    android:title="@string/savedPasswords"
     />
 </menu>

@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Toolbar" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@color/blackColor</item>
+        <item name="android:textColor">@color/WhiteColor</item>
+    </style>
+
 </resources>
