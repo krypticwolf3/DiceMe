@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+    public static HashMap<Integer, String> dictionaryOfWords = new HashMap<>();
     private BufferedReader read;
     private Button presetDictionary;
     private Button userDictionary;
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private String[] word;
     private int key;
     private String value;
-    public static HashMap<Integer, String> dictionaryOfWords = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +57,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Start the generate password activity where the user can generate a unique password
+     * Returns the HashMap that was initialized by the AsyncTask
+     * @return - Hashmap object
      */
-    private void startGenPassActivity(){
-        Intent intent = new Intent(this,GeneratePassword.class);
-        //intent.putExtra("dictionaryWords",dictionaryOfWords);
-        startActivity(intent);
-    }
-
     public HashMap<Integer, String> getDictionary(){
         return dictionaryOfWords;
     }
 
+    /**
+     * Start the generate password activity where the user can generate a unique password
+     */
+    private void startGenPassActivity(){
+        Intent intent = new Intent(this,GeneratePassword.class);
+        startActivity(intent);
+    }
+
+
+    /**
+     * AsyncTask class that will spawn a new thread via Google thread handling style, and load in
+     * the dictionary file and initialize the hashmap based on what it read from the dictionary.
+     */
     private class loadDictionary extends AsyncTask<BufferedReader, Integer, String>{
         String result;
 

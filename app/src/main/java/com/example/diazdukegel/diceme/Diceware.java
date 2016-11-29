@@ -18,8 +18,8 @@ public class Diceware {
     private int numberOfWords;
     private HashMap<Integer,String> map;
     private String password;
-    private static int MIN = 1;
-    private static int MAX = 6;
+    private static int MIN = 1; //A die's lowest number is 1 traditionally
+    private static int MAX = 6; //A die's highest number is 6 traditionally
 
     /**
      * This constructor will grab the mutator arguments, and set the variables based on the args

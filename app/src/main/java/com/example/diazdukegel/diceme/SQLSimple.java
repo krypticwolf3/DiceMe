@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SQLSimple extends SQLiteOpenHelper {
     private static final String DB_NAME = "DiceDB";
     private static final int DB_VERSION = 2;
-    public static final String TABLE_NAME = "test";
+    public static final String TABLE_NAME = "dicePasswords";
     public static final String COL_ID = "_id";
     public static final String COL_NAME = "Label";
     public static final String COL_PASS = "Password";
