@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blackColor"
+        android:elevation="4dp"
+        android:theme="@style/Toolbar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
 
     <Spinner
         android:layout_width="75dp"
@@ -46,4 +59,14 @@
         android:id="@+id/passwordOutputTextView"
         android:layout_below="@+id/passwordTextView"
         android:layout_alignStart="@+id/genPassBtn" />
+
+    <Button
+        android:text="SAVE PASSWORD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:id="@+id/savePassword"
+        android:layout_below="@+id/passwordOutputTextView"
+        android:layout_alignStart="@+id/passwordOutputTextView"
+        android:layout_marginStart="12dp" />
 </RelativeLayout>
