@@ -6,11 +6,12 @@
 <item
     android:id="@+id/action_load_dictionaries"
     android:title="@string/loadDictionary"
-    android:icon="@drawable/ic_action_menu_white"
     />
 
 <item
     android:id="@+id/action_savedPasswords"
     android:title="@string/savedPasswords"
+    android:icon="@drawable/ic_action_white_key"
+    app:showAsAction="ifRoom"
     />
 </menu>
