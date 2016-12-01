@@ -1,6 +1,8 @@
 package com.example.diazdukegel.diceme;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,6 +67,15 @@ public class GeneratePassword extends AppCompatActivity {
         /*dictionaryOfWords = (HashMap<Integer, String>)callerIntent.getSerializableExtra(
                 "dicitonaryOfWords");*/
 
+        passOutputTextView.setOnClickListener(new View.OnClickListener() {
+            @Override // touch the newly generated password and it is copied to clipboard
+            public void onClick(View v) {
+                Toast.makeText(GeneratePassword.this, "PASSWORD COPIED TO CLIPBOARD", Toast.LENGTH_SHORT).show();
+                ClipboardManager clipManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("copyPass", passwordOutput);
+                clipManager.setPrimaryClip(clip);
+            }
+        });
 
 
         genPassBtn.setOnClickListener(new View.OnClickListener() {
