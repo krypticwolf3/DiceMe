@@ -90,5 +90,12 @@ public class SQLSimple extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getColumnFromTable(SQLiteDatabase db, String tableName, String colName){
+        return db.query(tableName, new String[]{COL_NAME, COL_PASS}," WHERE label = "+colName,new String[]{},
+                null,null,null);
+        // String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
+         //               cursor = db.rawQuery(query,null);
+    }
+
 
 }
