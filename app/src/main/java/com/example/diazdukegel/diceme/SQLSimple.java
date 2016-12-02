@@ -10,13 +10,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Imported from my QuizGame project
  */
 
-public class SQLSimple extends SQLiteOpenHelper {
+class SQLSimple extends SQLiteOpenHelper {
     private static final String DB_NAME = "DiceDB";
     private static final int DB_VERSION = 2;
-    public static final String TABLE_NAME = "dicePasswords";
-    public static final String COL_ID = "_id";
-    public static final String COL_NAME = "Label";
-    public static final String COL_PASS = "Password";
+    static final String TABLE_NAME = "dicePasswords";
+    private static final String COL_ID = "_id";
+    static final String COL_NAME = "Label";
+    static final String COL_PASS = "Password";
     private static final String STRING_CREATE =
             "CREATE TABLE " +TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + COL_NAME + " TEXT NOT NULL, " + COL_PASS + " TEXT NOT NULL);";
@@ -28,7 +28,7 @@ public class SQLSimple extends SQLiteOpenHelper {
             + " INTEGER NOT NULL);";
             */
 
-    public SQLSimple(Context context) {
+    SQLSimple(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -37,7 +37,7 @@ public class SQLSimple extends SQLiteOpenHelper {
         db.execSQL(STRING_CREATE);
     }
 
-    public void deleteTable(SQLiteDatabase db, String tableName){
+    private void deleteTable(SQLiteDatabase db, String tableName){
         db.execSQL("DROP TABLE "+tableName);
     }
 
@@ -100,7 +100,5 @@ public class SQLSimple extends SQLiteOpenHelper {
     public Cursor getColumnFromTable(SQLiteDatabase db, String tableName, String colName){
         return db.query(tableName, new String[]{COL_NAME, COL_PASS},
                 " WHERE label = " + colName,new String[]{}, null, null, null);
-        // String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
-         //               cursor = db.rawQuery(query,null);
     }
 }

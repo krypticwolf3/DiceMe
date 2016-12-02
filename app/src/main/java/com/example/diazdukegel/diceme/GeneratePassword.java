@@ -1,6 +1,5 @@
 package com.example.diazdukegel.diceme;
 
-import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
@@ -25,8 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
-
-import static android.app.PendingIntent.getActivity;
 
 /**
  * This class handles the Activity referred to as "Generate pass" where the user can generate
@@ -230,8 +227,4 @@ public class GeneratePassword extends AppCompatActivity {
 
         }
     }
-
-
-
-
 }
