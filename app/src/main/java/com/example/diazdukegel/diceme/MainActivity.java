@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_load_dictionaries:
                 Intent loadDictionary = new Intent(this,MainActivity.class);
                 startActivity(loadDictionary);
+                finish();
                 return true;
 
             case R.id.action_savedPasswords:

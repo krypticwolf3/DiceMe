@@ -195,6 +195,10 @@ public class GeneratePassword extends AppCompatActivity {
         pass.setEnabled(false);
         //editText.setText("test label");
         alertDialog = dialogBuilder.create();
+
+        // Close the connections to the database.
+        dbHelper.close();
+        db.close();
     }
 
     @Override
@@ -217,6 +221,12 @@ public class GeneratePassword extends AppCompatActivity {
             case R.id.action_load_dictionaries:
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.action_savedPasswords:
+                Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
+                startActivity(displaySavedPasses);
                 return true;
 
             default:
