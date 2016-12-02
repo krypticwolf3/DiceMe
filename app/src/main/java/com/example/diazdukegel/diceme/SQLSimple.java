@@ -89,4 +89,18 @@ public class SQLSimple extends SQLiteOpenHelper {
             c.moveToNext();
         }
     }
+
+    /**
+     * Returns an entire col of data that matches the row ID in the sqlite table
+     * @param db the database instance
+     * @param tableName  the table to look for the col in
+     * @param colName  the col to select and grab all data from
+     * @return a Cursor type
+     */
+    public Cursor getColumnFromTable(SQLiteDatabase db, String tableName, String colName){
+        return db.query(tableName, new String[]{COL_NAME, COL_PASS},
+                " WHERE label = " + colName,new String[]{}, null, null, null);
+        // String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
+         //               cursor = db.rawQuery(query,null);
+    }
 }
