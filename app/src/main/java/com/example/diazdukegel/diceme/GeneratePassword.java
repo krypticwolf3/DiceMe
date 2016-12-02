@@ -107,9 +107,8 @@ public class GeneratePassword extends AppCompatActivity {
                         desiredCategory = category.getText().toString();
                         String newPass = pass.getText().toString();
 
-                        Cursor cursor = null;
                         String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
-                        cursor = db.rawQuery(query,null);
+                        Cursor cursor = db.rawQuery(query,null);
                         Log.e("Category Count",  ""+ cursor.getCount());
 
                         System.out.println("CHECK: " + DatabaseUtils.dumpCursorToString(cursor));
