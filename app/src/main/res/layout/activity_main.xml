@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,8 +12,6 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/blackColor"
-        android:elevation="4dp"
         android:theme="@style/Toolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
@@ -20,11 +19,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DizDuKegel "
+        android:text="@string/dev"
         android:id="@+id/DevNames" />
 
     <Button
-        android:text="Import own dictionary"
+        android:text="@string/importDictionary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
@@ -33,7 +32,7 @@
         android:layout_alignStart="@+id/presetDicBtn" />
 
     <Button
-        android:text="Use Preset Dictionary"
+        android:text="@string/presetDictionary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/presetDicBtn"
@@ -48,5 +47,6 @@
         android:layout_height="125dp"
         android:layout_above="@+id/userDicBtn"
         android:layout_alignStart="@+id/presetDicBtn"
-        android:layout_marginStart="15dp" />
+        android:layout_marginStart="15dp"
+        android:contentDescription="@string/diceImageDesc"/>
 </RelativeLayout>

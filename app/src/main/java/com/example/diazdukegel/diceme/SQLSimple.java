@@ -10,33 +10,34 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Imported from my QuizGame project
  */
 
-public class SQLSimple extends SQLiteOpenHelper {
+class SQLSimple extends SQLiteOpenHelper {
     private static final String DB_NAME = "DiceDB";
     private static final int DB_VERSION = 2;
-    public static final String TABLE_NAME = "dicePasswords";
-    public static final String COL_ID = "_id";
-    public static final String COL_NAME = "Label";
-    public static final String COL_PASS = "Password";
+    static final String TABLE_NAME = "dicePasswords";
+    private static final String COL_ID = "_id";
+    static final String COL_NAME = "Label";
+    static final String COL_PASS = "Password";
     private static final String STRING_CREATE =
-            "CREATE TABLE " +TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_NAME + " TEXT, " + COL_PASS +
-                    " TEXT);";
-    /*private static final String STRING_CUSTOM_CREATE = " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_QUESTIONS + " TEXT, " + COL_QUESTION_TYPE + " TEXT, "
-            + COL_ANSWERS + " TEXT, " + COL_ATTEMPT + " TEXT, "+ COL_SCORE + " INTEGER);";
+            "CREATE TABLE " +TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                    + COL_NAME + " TEXT NOT NULL, " + COL_PASS + " TEXT NOT NULL);";
+
+    /*private static final String STRING_CUSTOM_CREATE =
+            " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + COL_QUESTIONS + " TEXT NOT NULL, " + COL_QUESTION_TYPE + " TEXT NOT NULL, "
+            + COL_ANSWERS + " TEXT NOT NULL, " + COL_ATTEMPT + " TEXT NOT NULL, " + COL_SCORE
+            + " INTEGER NOT NULL);";
             */
 
-    public SQLSimple(Context context) {
+    SQLSimple(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(STRING_CREATE);
-
     }
 
-    public void deleteTable(SQLiteDatabase db, String tableName){
+    private void deleteTable(SQLiteDatabase db, String tableName){
         db.execSQL("DROP TABLE "+tableName);
     }
 
@@ -87,15 +88,17 @@ public class SQLSimple extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
-
     }
 
+    /**
+     * Returns an entire col of data that matches the row ID in the sqlite table
+     * @param db the database instance
+     * @param tableName  the table to look for the col in
+     * @param colName  the col to select and grab all data from
+     * @return a Cursor type
+     */
     public Cursor getColumnFromTable(SQLiteDatabase db, String tableName, String colName){
-        return db.query(tableName, new String[]{COL_NAME, COL_PASS}," WHERE label = "+colName,new String[]{},
-                null,null,null);
-        // String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
-         //               cursor = db.rawQuery(query,null);
+        return db.query(tableName, new String[]{COL_NAME, COL_PASS},
+                " WHERE label = " + colName,new String[]{}, null, null, null);
     }
-
-
 }

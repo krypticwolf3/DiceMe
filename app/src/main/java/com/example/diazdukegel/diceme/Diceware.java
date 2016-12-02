@@ -51,8 +51,8 @@ public class Diceware {
                 index = index + Integer.toString(num);
             }
             Log.d("diceware","index: "+index);
-            Log.d("diceWare","diceWareMap: " +index + " "+map.get(Integer.parseInt(index)));
-            words = words + " " + map.get(Integer.parseInt(index));
+            Log.d("diceWare","diceWareMap: " +index + " " + map.get(Integer.parseInt(index)));
+            words = words + map.get(Integer.parseInt(index));
             if(words.contains("null")){
                 Log.d("diceWare","PASSWORD IS NULL");
             }

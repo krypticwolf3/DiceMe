@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -138,11 +137,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_load_dictionaries:
-                Intent loadDictionaries = new Intent(this,MainActivity.class);
-                startActivity(loadDictionaries);
+                Intent loadDictionary = new Intent(this,MainActivity.class);
+                startActivity(loadDictionary);
+                finish();
                 return true;
 
             case R.id.action_savedPasswords:
+                Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
+                startActivity(displaySavedPasses);
                 return true;
 
             default:
