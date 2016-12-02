@@ -174,9 +174,9 @@ public class GeneratePassword extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        category = (EditText) dialogView.findViewById(R.id.category);
-        pass = (EditText) dialogView.findViewById(R.id.password);
-        overrideButton = (Button) dialogView.findViewById(R.id.override);
+        category = (EditText) dialogView.findViewById(R.id.categoryEditTextField);
+        pass = (EditText) dialogView.findViewById(R.id.passEditTextField);
+        overrideButton = (Button) dialogView.findViewById(R.id.overrideBtn);
         overrideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,8 +185,18 @@ public class GeneratePassword extends AppCompatActivity {
                 String newPass = pass.getText().toString();
                 cv.put(SQLSimple.COL_NAME, desiredCategory);
                 cv.put(SQLSimple.COL_PASS, newPass);
-                db.replace(SQLSimple.TABLE_NAME,null, cv);
-                Toast.makeText(GeneratePassword.this, "CATEGORY: "+desiredCategory + " OVERRIDED",Toast.LENGTH_SHORT).show();
+
+                /* Tom's code to replace entries already existing. */
+                // It works, I swear!  I only removed the previous update query.
+                String update = "UPDATE " + SQLSimple.TABLE_NAME +
+                        " SET " + SQLSimple.COL_PASS + "='" + newPass + "'" +
+                        " WHERE " + SQLSimple.COL_NAME + "='" + desiredCategory + "'";
+
+                db.execSQL(update);
+                /* End of Tom's code. */
+
+                Toast.makeText(GeneratePassword.this, "CATEGORY: " + desiredCategory +
+                        " OVERWRITTEN",Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });
@@ -195,10 +205,24 @@ public class GeneratePassword extends AppCompatActivity {
         pass.setEnabled(false);
         //editText.setText("test label");
         alertDialog = dialogBuilder.create();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
 
         // Close the connections to the database.
         dbHelper.close();
         db.close();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // Reopen the connections to the database.
+        dbHelper = new SQLSimple(this);
+        db = dbHelper.getWritableDatabase();
     }
 
     @Override

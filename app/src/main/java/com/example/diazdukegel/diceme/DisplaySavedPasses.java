@@ -8,6 +8,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -63,7 +64,6 @@ public class DisplaySavedPasses extends AppCompatActivity {
             // Add the queried data to the ListView.
             arrayHolder = (ListView) findViewById(R.id.listViewForDisplayPasses);
 
-
             listedCategoriesAdapter = new SimpleCursorAdapter(this,
                     android.R.layout.two_line_list_item, dbCursor,
                     new String[]{SQLSimple.COL_NAME,SQLSimple.COL_PASS},
@@ -80,6 +80,12 @@ public class DisplaySavedPasses extends AppCompatActivity {
 
             // Associate the array layout with the adapter.
             arrayHolder.setAdapter(listedCategoriesAdapter);
+
+            // TODO: Add onItemLockClickListener to the ListView
+            // This will be used to facilitate delete and/or copy of data.
+            //AdapterView.OnItemLongClickListener test = new AdapterView.OnItemLongClickListener();
+            //arrayHolder.setOnItemLongClickListener(new AdapterView.onItemLongClickListener());
+            //listedCategoriesAdapter.notifyDataSetChanged();
         }
     }
 
@@ -121,5 +127,4 @@ public class DisplaySavedPasses extends AppCompatActivity {
         dbHelper.close();
         db.close();
     }
-
 }
