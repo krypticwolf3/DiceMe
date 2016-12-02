@@ -87,8 +87,5 @@ public class SQLSimple extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
-
     }
-
-
 }

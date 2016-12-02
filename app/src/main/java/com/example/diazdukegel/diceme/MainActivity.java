@@ -138,8 +138,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_load_dictionaries:
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
+                Intent loadDictionary = new Intent(this,MainActivity.class);
+                startActivity(loadDictionary);
+                return true;
+
+            case R.id.action_savedPasswords:
+                Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
+                startActivity(displaySavedPasses);
                 return true;
 
             default:

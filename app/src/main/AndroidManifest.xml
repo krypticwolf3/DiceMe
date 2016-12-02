@@ -16,7 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GeneratePassword"></activity>
+        <activity android:name=".GeneratePassword" />
+        <activity
+            android:name=".DisplaySavedPasses"
+            android:label="@string/title_activity_display_saved_passes">
+
+        </activity>
     </application>
 
 </manifest>
