@@ -18,12 +18,14 @@ public class SQLSimple extends SQLiteOpenHelper {
     public static final String COL_NAME = "Label";
     public static final String COL_PASS = "Password";
     private static final String STRING_CREATE =
-            "CREATE TABLE " +TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_NAME + " TEXT, " + COL_PASS +
-                    " TEXT);";
-    /*private static final String STRING_CUSTOM_CREATE = " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_QUESTIONS + " TEXT, " + COL_QUESTION_TYPE + " TEXT, "
-            + COL_ANSWERS + " TEXT, " + COL_ATTEMPT + " TEXT, "+ COL_SCORE + " INTEGER);";
+            "CREATE TABLE " +TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                    + COL_NAME + " TEXT NOT NULL, " + COL_PASS + " TEXT NOT NULL);";
+
+    /*private static final String STRING_CUSTOM_CREATE =
+            " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + COL_QUESTIONS + " TEXT NOT NULL, " + COL_QUESTION_TYPE + " TEXT NOT NULL, "
+            + COL_ANSWERS + " TEXT NOT NULL, " + COL_ATTEMPT + " TEXT NOT NULL, " + COL_SCORE
+            + " INTEGER NOT NULL);";
             */
 
     public SQLSimple(Context context) {
@@ -33,7 +35,6 @@ public class SQLSimple extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(STRING_CREATE);
-
     }
 
     public void deleteTable(SQLiteDatabase db, String tableName){

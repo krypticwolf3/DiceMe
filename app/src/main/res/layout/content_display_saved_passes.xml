@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/displaySavedPassesParentView"
+    android:id="@+id/displaySavedPassesStableView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -11,22 +11,16 @@
     tools:showIn="@layout/activity_display_saved_passes">
 
     <LinearLayout
-        android:id="@+id/displaySavedPassesChildView"
+        android:id="@+id/displaySavedPassesChangingView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/infoAtTopText"
+        <ListView
+            android:id="@+id/listViewForDisplayPasses"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/bodyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
+        </ListView>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
