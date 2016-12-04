@@ -13,13 +13,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,8 @@ public class GeneratePassword extends AppCompatActivity {
     MainActivity main;
     private Button genPassBtn, saveButton, overrideButton;
     private Diceware dicePass;
+    private Switch spaceSwitch;
+    private boolean spaced, saveBtnEnabled, atDialog;
     private Spinner numOfWordsSpinner;
     private int numOfWords;
     private String passwordOutput="";
@@ -46,19 +52,39 @@ public class GeneratePassword extends AppCompatActivity {
     private SQLSimple dbHelper;
     private SQLiteDatabase db;
 
+    // Keywords used to save the current instance for the user.
+    private static final String STORE_PASS = "pass";
+    private static final String STORE_USED = "used";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generate_pass);
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+
         genPassBtn = (Button)findViewById(R.id.genPassBtn);
         saveButton = (Button) findViewById(R.id.savePassword);
+        spaceSwitch = (Switch) findViewById(R.id.spaceToggleSwitch);
         numOfWordsSpinner = (Spinner)findViewById(R.id.wordNumSpinner);
         passOutputTextView = (TextView)findViewById(R.id.passwordOutputTextView);
+
+        spaced = true;
+        atDialog = false;
+        saveBtnEnabled = false;
+        spaceSwitch.setTextOn("Yes");
+        spaceSwitch.setTextOff("No");
+        spaceSwitch.setChecked(true);
         saveButton.setEnabled(false);
         dbHelper = new SQLSimple(this);
         db = dbHelper.getWritableDatabase();
+
+        if (savedInstanceState != null) {
+            passwordOutput = savedInstanceState.getString("pass");
+            passOutputTextView.setText(passwordOutput);
+            saveButton.setEnabled(savedInstanceState.getBoolean("used"));
+            saveBtnEnabled = true;
+        }
 
         Intent callerIntent = getIntent();
         /*dictionaryOfWords = (HashMap<Integer, String>)callerIntent.getSerializableExtra(
@@ -74,18 +100,30 @@ public class GeneratePassword extends AppCompatActivity {
             }
         });
 
+        spaceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    spaced = true;
+                } else {
+                    // The toggle is disabled
+                    spaced = false;
+                }
+            }
+        });
 
         genPassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 main = new MainActivity();
                 numOfWords = Integer.parseInt(numOfWordsSpinner.getSelectedItem().toString());
-                Log.d("numOfWOrds","NumOfWOrds"+Integer.toString(numOfWords));
+                Log.d("numOfWOrds", "NumOfWOrds" + Integer.toString(numOfWords));
                 dictionary = main.getDictionary();
-                dicePass = new Diceware(numOfWords,dictionary);
+                dicePass = new Diceware(numOfWords, dictionary, spaced);
                 passwordOutput = dicePass.getPassword();
                 passOutputTextView.setText(passwordOutput);
                 saveButton.setEnabled(true);
+                saveBtnEnabled = true;
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +135,11 @@ public class GeneratePassword extends AppCompatActivity {
                 }else {
                     pass.setText(passwordOutput);
                 }
+
+
+                atDialog = true;
                 alertDialog.show();
+
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override // override dialog's save button to not close automatically
                     public void onClick(View v) {
@@ -129,6 +171,8 @@ public class GeneratePassword extends AppCompatActivity {
                         }
                     }
                 });
+
+                atDialog = false;
             }
         });
 
@@ -207,9 +251,31 @@ public class GeneratePassword extends AppCompatActivity {
         alertDialog = dialogBuilder.create();
     }
 
+    ////////////////////////////////////////////
+    // Define supporting lifecycle functions. //
+    ////////////////////////////////////////////
+
+    /*
+     * To avoid data loss from standard Android operations, save data using
+     * saveInstanceState
+     */
+    @Override
+    public void onSaveInstanceState (Bundle savedInstanceState) {
+
+        savedInstanceState.putString(STORE_PASS, passwordOutput);
+        savedInstanceState.putBoolean(STORE_USED, saveBtnEnabled);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     @Override
     public void onPause(){
         super.onPause();
+
+        // Avoid crashing because the alert dialog is open.
+        if(alertDialog.isShowing()) {
+            alertDialog.dismiss();
+        }
 
         // Close the connections to the database.
         dbHelper.close();
@@ -219,6 +285,12 @@ public class GeneratePassword extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        // If the user was at the alert dialong, show it again.
+        if (atDialog) {
+            Toast.makeText(this, "ATTEMPTING TO SHOW THE ALERT AGAIN.", Toast.LENGTH_LONG).show();
+            alertDialog.show();
+        }
 
         // Reopen the connections to the database.
         dbHelper = new SQLSimple(this);
@@ -251,6 +323,7 @@ public class GeneratePassword extends AppCompatActivity {
             case R.id.action_savedPasswords:
                 Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
                 startActivity(displaySavedPasses);
+                finish();
                 return true;
 
             default:

@@ -3,15 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<item
-    android:id="@+id/action_load_dictionaries"
-    android:title="@string/loadDictionary"
-    />
+    <item
+        android:id="@+id/action_load_dictionaries"
+        android:title="@string/loadDictionary" />
 
-<item
-    android:id="@+id/action_savedPasswords"
-    android:title="@string/savedPasswords"
-    android:icon="@drawable/ic_action_white_key"
-    app:showAsAction="ifRoom"
-    />
+    <item
+        android:id="@+id/action_generate_passwords"
+        android:title="@string/generatePassword"
+        android:icon="@mipmap/ic_launcher"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_savedPasswords"
+        android:title="@string/savedPasswords"
+        android:icon="@drawable/ic_action_white_key"
+        app:showAsAction="ifRoom" />
 </menu>
