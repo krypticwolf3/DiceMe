@@ -1,71 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    >
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/Toolbar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/Toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <!-- Pass Option Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:text="@string/instNumOfWords"
+            android:layout_marginTop="71dp"
+            android:layout_below="@+id/my_toolbar"
+            android:layout_centerHorizontal="true" />
+
+        <Spinner
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/wordNumSpinner"
+            android:entries="@array/numberOfWords"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true" />
+
+        <Switch
+            android:id="@+id/spaceToggleSwitch"
+            android:text="@string/spaceToggleInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wordNumSpinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:clickable="true"
+            android:switchPadding="10dp"/>
+
+        <TextView
+            android:id="@+id/spacedInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spaceToggleSwitch"
+            android:layout_centerHorizontal="true"
+            android:text="@string/spacedInfoText"/>
+
+        <!-- Display Pass Section -->
+        <Button
+            android:text="@string/generatePassword"
+            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            android:id="@+id/genPassBtn"
+            android:layout_marginTop="100dp"
+            android:layout_below="@+id/spacedInfoTextView"
+            android:layout_alignParentStart="true" />
 
 
-    <Spinner
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/wordNumSpinner"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:entries="@array/numberOfWords"/>
+        <TextView
+            android:hint="@string/displayPassHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordOutputTextView"
+            android:layout_below="@+id/passwordTextView"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:id="@+id/textView"
-        android:text="@string/instNumOfWords"
-        android:layout_marginBottom="86dp"
-        android:layout_above="@+id/passwordOutputTextView"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:text="@string/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordTextView"
+            android:layout_marginTop="9dp"
+            android:layout_below="@+id/genPassBtn"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="@string/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordTextView"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/genPassBtn"
-        android:layout_marginStart="36dp" />
+        <!-- Save Pass Section -->
+        <Button
+            android:text="@string/savePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/savePassword"
+            android:layout_below="@+id/passwordOutputTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp" />
 
-    <Button
-        android:text="@string/generatePassword"
-        android:layout_width="wrap_content"
-        android:id="@+id/genPassBtn"
-        android:layout_height="45dp"
-        android:layout_below="@+id/wordNumSpinner"
-        android:layout_toStartOf="@+id/wordNumSpinner"
-        android:layout_marginTop="14dp" />
-
-    <TextView
-        android:hint="@string/displayPassHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordOutputTextView"
-        android:layout_below="@+id/passwordTextView"
-        android:layout_alignStart="@+id/genPassBtn" />
-
-    <Button
-        android:text="@string/savePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:id="@+id/savePassword"
-        android:layout_below="@+id/passwordOutputTextView"
-        android:layout_alignStart="@+id/passwordOutputTextView"
-        android:layout_marginStart="12dp" />
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

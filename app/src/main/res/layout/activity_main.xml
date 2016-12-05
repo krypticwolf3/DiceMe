@@ -6,7 +6,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.diazdukegel.diceme.MainActivity">
+    tools:context="com.example.diazdukegel.diceme.MainActivity"
+    android:layout_centerHorizontal="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -15,38 +16,41 @@
         android:theme="@style/Toolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dev"
-        android:id="@+id/DevNames" />
-
-    <Button
-        android:text="@string/importDictionary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:id="@+id/userDicBtn"
-        android:layout_alignTop="@+id/presetDicBtn"
-        android:layout_alignStart="@+id/presetDicBtn" />
-
-    <Button
-        android:text="@string/presetDictionary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/presetDicBtn"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/DevNames" />
-
     <ImageView
         android:src="@drawable/diceroll"
         android:scaleType="centerCrop"
         android:id="@+id/diceImage"
         android:layout_width="150dp"
         android:layout_height="125dp"
-        android:layout_above="@+id/userDicBtn"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="75dp"
         android:layout_alignStart="@+id/presetDicBtn"
-        android:layout_marginStart="15dp"
-        android:contentDescription="@string/diceImageDesc"/>
+        android:contentDescription="@string/diceImageDesc"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/presetDicBtn"
+        android:text="@string/presetDictionary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/diceImage"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/userDicBtn"
+        android:text="@string/importDictionary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/presetDicBtn"
+        android:layout_centerHorizontal="true" />
+
+    <!-- We did it! -->
+    <TextView
+        android:id="@+id/DevNames"
+        android:text="@string/dev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userDicBtn"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

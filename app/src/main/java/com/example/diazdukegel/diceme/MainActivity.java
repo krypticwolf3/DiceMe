@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] word;
     private int key;
     private String value;
-    private Menu mi;
+    private static boolean loaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 read = new BufferedReader(new InputStreamReader(file));
                 try {
                     new loadDictionary().execute(read);
+
+                    loaded = true;
+
                     startGenPassActivity();
                 }catch (Exception e){
                     Log.d("AsyncTask","AsyncFailure, trace: "+e);
@@ -136,23 +139,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_load_dictionaries:
-                Intent loadDictionary = new Intent(this,MainActivity.class);
-                startActivity(loadDictionary);
-                finish();
+                if (loaded) {
+                    Intent loadDictionary = new Intent(this, MainActivity.class);
+                    startActivity(loadDictionary);
+                    finish();
+                    return true;
+                }
+
+                Toast.makeText(this,
+                        "Your choices are displayed already.",
+                        Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.action_generate_passwords:
+                if (loaded) {
+                    Intent generatePasses = new Intent(this, GeneratePassword.class);
+                    startActivity(generatePasses);
+                    finish();
+                    return true;
+                }
+
+                Toast.makeText(this,
+                        "Pick a pre-loaded or custom dictionary first.",
+                        Toast.LENGTH_LONG).show();
                 return true;
 
             case R.id.action_savedPasswords:
-                Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
-                startActivity(displaySavedPasses);
+                if (loaded) {
+                    Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
+                    startActivity(displaySavedPasses);
+                    //finish();
+                    return true;
+                }
+
+                Toast.makeText(this,
+                        "Pick a pre-loaded or custom dictionary first.",
+                        Toast.LENGTH_LONG).show();
                 return true;
 
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
-
 }

@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">DiceMe</string>
-    <string name="dev">DizDuKegel </string>
+    <string name="dev">DiazDuKegel </string>
     <string name="password">Password:</string>
     <string name="overrideBtnText">OVERRIDE</string>
     <string name="categoryHint">Enter Desired Category</string>
-    <string name="passwordHint">enter a password</string>
+    <string name="passwordHint">Enter a Password</string>
     <string name="diceImageDesc">The most awesome dice image ever.</string>
     <string name="instNumOfWords">Select the number of words to generate:</string>
     <string name="savedPasswords">Saved Passwords</string>
-    <string name="loadDictionary">Load dictionaries</string>
-    <string name="importDictionary">Import own dictionary</string>
+    <string name="loadDictionary">Pick a Dictionary</string>
+    <string name="importDictionary">Import Custom Dictionary</string>
     <string name="savePassword">SAVE PASSWORD</string>
     <string name="generatePassword">Generate Password</string>
     <string name="displayPassHint">Password is displayed here.</string>
@@ -25,4 +25,7 @@
     <string name="title_activity_display_saved_passes">DisplaySavedPasses</string>
     <string name="presetDictionary">Use Preset Dictionary</string>
     <string name="action_settings">Settings</string>
+    <string name="passListInfoText">Stored Pass Phrases:</string>
+    <string name="spaceToggleInfo">Include Spaces?</string>
+    <string name="spacedInfoText">Spaces actually add security, when allowed.</string>
 </resources>
