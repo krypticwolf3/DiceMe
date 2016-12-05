@@ -136,7 +136,8 @@ public class GeneratePassword extends AppCompatActivity {
                     pass.setText(passwordOutput);
                 }
 
-
+                // Use the atDialog boolean to track if the dialog was showing, in case
+                // the dialog is destroyed for any reason.  We can then save and retrieve data.
                 atDialog = true;
                 alertDialog.show();
 
@@ -325,6 +326,10 @@ public class GeneratePassword extends AppCompatActivity {
                 startActivity(displaySavedPasses);
                 finish();
                 return true;
+
+            case R.id.action_generate_passwords:
+                Toast.makeText(this, "Create new passwords on this page.",
+                        Toast.LENGTH_LONG).show();
 
             default:
                 // If we got here, the user's action was not recognized.

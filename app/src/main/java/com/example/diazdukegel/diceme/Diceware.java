@@ -27,6 +27,7 @@ public class Diceware {
      * the dictionary
      * @param words - An Integer value which is defined by the user, it is a number of words desired
      * @param dictionary - A hashmap which will be the dictionary in which to grab values from
+     * @param binaryChoice - A boolean used to track if spaces should be added to the password
      */
     public Diceware(int words, HashMap<Integer, String> dictionary, boolean binaryChoice){
         this.numberOfWords = words;
@@ -37,8 +38,10 @@ public class Diceware {
 
     /**
      * This uses the integer value defined by the constructor above to get a number of words
-     * from the dictionary and then concatenates them into one long string
-     * E.g "cat dog barrel cookie airplane"
+     * from the dictionary and then concatenates them into one long string, spaced or not depending
+     * on what state the spacer switch is in (false for off, true for on).
+     * E.g "cat dog barrel cookie airplane" with spaces
+     * E.g "catdogbarrelcookieairplane" without spaces
      */
     private void setPassword(){
         Random rand = new Random();
@@ -52,6 +55,7 @@ public class Diceware {
             if (spaces) {
 
                 // Spaces are desired.
+                // Don't use the first space.
                 if (i == 0) {
                     for (int x = MIN; x < MAX; x++) {
                         num = rand.nextInt((MAX - MIN) + 1) + MIN;

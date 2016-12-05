@@ -42,9 +42,8 @@ public class DisplaySavedPasses extends AppCompatActivity {
         });
         */
 
-        /**
+        /*
          * Read data from the database, should one exist, and display saved items.
-         * By Thomas Kegel.
          */
 
         dbHelper = new SQLSimple(this);
@@ -147,6 +146,10 @@ public class DisplaySavedPasses extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+
+            case R.id.action_savedPasswords:
+                Toast.makeText(this, "Any saved passwords are displayed below.",
+                        Toast.LENGTH_LONG).show();
 
             case R.id.action_generate_passwords:
                 Intent generatePasses = new Intent(this,GeneratePassword.class);
