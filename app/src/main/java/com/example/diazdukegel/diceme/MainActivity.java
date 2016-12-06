@@ -1,16 +1,10 @@
 package com.example.diazdukegel.diceme;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.renderscript.ScriptGroup;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,10 +16,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -71,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     loaded = true;
                     startGenPassActivity();
                 }catch (Exception e){
-                    Log.d("AsyncTask","AsyncFailure, trace: "+e);
+                    Log.d("AsyncTask","AsyncFailure, trace: " + e);
                 }
             }
         });
@@ -83,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 loaded = true;
             }
         });
-
     }
 
     /**
@@ -181,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     key = Integer.parseInt(word[0]);
                     value = word[1];
                     dictionaryOfWords.put(key, value);
-                    Log.d("userDic", "Key,value: "+ key + " "+dictionaryOfWords.get(key));
+                    Log.d("userDic", "Key,value: " + key + " " + dictionaryOfWords.get(key));
                 } catch (Exception e) {
                     Log.d("fileReading", "FILE COULD NOT BE READ WTF");
                 }
@@ -201,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext()," Dictionary Loaded",
                     Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
