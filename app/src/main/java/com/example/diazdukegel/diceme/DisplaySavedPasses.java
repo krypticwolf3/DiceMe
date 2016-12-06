@@ -1,6 +1,8 @@
 package com.example.diazdukegel.diceme;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,7 +23,6 @@ public class DisplaySavedPasses extends AppCompatActivity {
     private SQLiteDatabase db;
     private SQLSimple dbHelper;
     private Cursor dbCursor;
-
     private ListView arrayHolder;
     private SimpleCursorAdapter listedCategoriesAdapter;
 
@@ -82,6 +84,19 @@ public class DisplaySavedPasses extends AppCompatActivity {
 
             // Associate the array layout with the adapter.
             arrayHolder.setAdapter(listedCategoriesAdapter);
+
+            arrayHolder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Cursor cursor = (Cursor) arrayHolder.getItemAtPosition(position);
+                    String data = cursor.getString(2);
+                    //Toast.makeText(DisplaySavedPasses.this, "Password: " + data, Toast.LENGTH_SHORT).show();
+                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("copyPass", data);
+                    clipboardManager.setPrimaryClip(clip);
+                    Toast.makeText(DisplaySavedPasses.this, "PASSWORD COPIED TO CLIPBOARD", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             // TODO: Add onItemLockClickListener to the ListView
             // This will be used to facilitate delete and/or copy of data.
