@@ -38,7 +38,9 @@ import java.util.HashMap;
 public class GeneratePassword extends AppCompatActivity {
     private HashMap<Integer,String> dictionary;
     MainActivity main;
-    private Button genPassBtn, saveButton, overrideButton;
+    private Button genPassBtn;
+    private Button saveButton;
+    private Button overrideButton;
     private Diceware dicePass;
     private Switch spaceSwitch;
     private boolean spaced, saveBtnEnabled, atDialog;
@@ -86,9 +88,6 @@ public class GeneratePassword extends AppCompatActivity {
             saveBtnEnabled = true;
         }
 
-        Intent callerIntent = getIntent();
-        /*dictionaryOfWords = (HashMap<Integer, String>)callerIntent.getSerializableExtra(
-                "dicitonaryOfWords");*/
 
         passOutputTextView.setOnClickListener(new View.OnClickListener() {
             @Override // touch the newly generated password and it is copied to clipboard
@@ -136,8 +135,8 @@ public class GeneratePassword extends AppCompatActivity {
                     pass.setText(passwordOutput);
                 }
 
-                // Use the atDialog boolean to track if the dialog was showing, in case
-                // the dialog is destroyed for any reason.  We can then save and retrieve data.
+                /* Use the atDialog boolean to track if the dialog was showing, in case
+                the dialog is destroyed for any reason.  We can then save and retrieve data.*/
                 atDialog = true;
                 alertDialog.show();
 
@@ -188,32 +187,6 @@ public class GeneratePassword extends AppCompatActivity {
             }
         });
 
-//      dialogBuilder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                Toast.makeText(GeneratePassword.this, "Pass: " + passwordOutput, Toast.LENGTH_SHORT).show();
-//
-//                ContentValues cv = new ContentValues();
-//                desiredCategory = category.getText().toString();
-//                String newPass = pass.getText().toString();
-//
-//                Cursor cursor = null;
-//                String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
-//                cursor = db.rawQuery(query, null);
-//                Log.e("Category Count",  ""+ cursor.getCount());
-//                Toast.makeText(GeneratePassword.this, "HWAAAAA", Toast.LENGTH_SHORT).show();
-//                if(cursor.getCount() > 0){
-//                    Toast.makeText(GeneratePassword.this, "Category Already Exists. Press Button to Override", Toast.LENGTH_SHORT);
-//
-//                }else{
-//                    cv.put("Label",desiredCategory);
-//                    cv.put("Password", newPass);
-//                    db.insert(SQLSimple.TABLE_NAME, null, cv);
-//                    Toast.makeText(GeneratePassword.this, "Password Inserted to " + desiredCategory, Toast.LENGTH_SHORT).show();
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-        //dialogBuilder.setNegativeButton("CANCEL", null);
         dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
