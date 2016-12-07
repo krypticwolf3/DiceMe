@@ -1,8 +1,10 @@
 package com.example.diazdukegel.diceme;
 
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +13,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,9 @@ public class DisplaySavedPasses extends AppCompatActivity {
     private Cursor dbCursor;
     private ListView arrayHolder;
     private SimpleCursorAdapter listedCategoriesAdapter;
+    private int currPosition;
+    AlertDialog alertDialog;
+    private String deleteCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +111,49 @@ public class DisplaySavedPasses extends AppCompatActivity {
                     //TODO: Maybe add an alert dialog to choose copying or deleting of entry.
                 }
             });
+
+            //DELETE ALERT DIALOG
+            DialogInterface.OnClickListener actionListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch(i){
+                        case 0:
+
+                            Cursor cursor  = (Cursor) arrayHolder.getItemAtPosition(currPosition);
+                            String category = cursor.getString(cursor.getColumnIndexOrThrow(SQLSimple.COL_NAME));
+                            String whereClause = " " + "Label = ";
+                            db.delete(SQLSimple.TABLE_NAME, whereClause +"'" + category + "'",null);
+                            String[] allColumns = new String[]{"_id", SQLSimple.COL_NAME, SQLSimple.COL_PASS};
+                            Cursor newCursor = db.query(SQLSimple.TABLE_NAME, allColumns, null, null, null, null, null);
+                            listedCategoriesAdapter.swapCursor(newCursor);
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+            };
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this); //create alert dialog when deleting
+            builder.setTitle("Are You Sure You Want to Remove This?");
+            String[] options = new String[]{"Remove"};
+            builder.setItems(options, actionListener);
+            builder.setNegativeButton("Cancel", null);
+            alertDialog = builder.create();
+
+            arrayHolder.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Cursor cursor = (Cursor) arrayHolder.getItemAtPosition(i);
+                    deleteCategory = cursor.getString(cursor.getColumnIndexOrThrow(SQLSimple.COL_NAME));
+                    Log.e("Delete",deleteCategory);
+                    alertDialog.show();
+                    currPosition = i;
+                    return true;
+                }
+            });
+
 
             listedCategoriesAdapter.notifyDataSetChanged();
         }
