@@ -98,6 +98,8 @@ public class Diceware {
 
     }
 
+
+
     /**
      * Returns the unique generated password
      * @return a String type, which is the password
