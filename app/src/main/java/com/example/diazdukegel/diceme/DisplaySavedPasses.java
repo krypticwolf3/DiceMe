@@ -25,7 +25,6 @@ public class DisplaySavedPasses extends AppCompatActivity {
     private SQLSimple dbHelper;
     private Cursor dbCursor;
     private ListView arrayHolder;
-    private Bundle loadedIntentBundle;
     private SimpleCursorAdapter listedCategoriesAdapter;
 
     @Override
@@ -50,7 +49,7 @@ public class DisplaySavedPasses extends AppCompatActivity {
          * Read data from the database, should one exist, and display saved items.
          */
 
-        loadedIntentBundle = getIntent().getExtras();
+        Bundle loadedIntentBundle = getIntent().getExtras();
         if (loadedIntentBundle != null) {
             loaded = loadedIntentBundle.getBoolean(MainActivity.DICTIONARY_LOADED);
         }
@@ -164,6 +163,7 @@ public class DisplaySavedPasses extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_load_dictionaries:
                 Intent intent = new Intent(this,MainActivity.class);
+                intent.putExtra(MainActivity.DICTIONARY_LOADED, loaded);
                 startActivity(intent);
                 finish();
                 return true;
@@ -177,6 +177,7 @@ public class DisplaySavedPasses extends AppCompatActivity {
             case R.id.action_generate_passwords:
                 if (loaded) {
                     Intent generatePasses = new Intent(this, GeneratePassword.class);
+                    generatePasses.putExtra(MainActivity.DICTIONARY_LOADED, loaded);
                     startActivity(generatePasses);
                     finish();
                     return true;

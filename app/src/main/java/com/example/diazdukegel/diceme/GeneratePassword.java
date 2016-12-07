@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -38,11 +37,9 @@ import java.util.HashMap;
 public class GeneratePassword extends AppCompatActivity {
     private HashMap<Integer,String> dictionary;
     MainActivity main;
-    private Button genPassBtn;
     private Button saveButton;
     private Button overrideButton;
     private Diceware dicePass;
-    private Switch spaceSwitch;
     private boolean spaced, saveBtnEnabled, atDialog;
     private Spinner numOfWordsSpinner;
     private int numOfWords;
@@ -53,7 +50,6 @@ public class GeneratePassword extends AppCompatActivity {
     private String desiredCategory;
     private SQLSimple dbHelper;
     private SQLiteDatabase db;
-    private Bundle loadedIntentBundle;
     private boolean loaded;
 
     // Keywords used to save the current instance for the user.
@@ -67,13 +63,13 @@ public class GeneratePassword extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        genPassBtn = (Button)findViewById(R.id.genPassBtn);
+        Button genPassBtn = (Button)findViewById(R.id.genPassBtn);
         saveButton = (Button) findViewById(R.id.savePassword);
-        spaceSwitch = (Switch) findViewById(R.id.spaceToggleSwitch);
+        Switch spaceSwitch = (Switch) findViewById(R.id.spaceToggleSwitch);
         numOfWordsSpinner = (Spinner)findViewById(R.id.wordNumSpinner);
         passOutputTextView = (TextView)findViewById(R.id.passwordOutputTextView);
 
-        loadedIntentBundle = getIntent().getExtras();
+        Bundle loadedIntentBundle = getIntent().getExtras();
         if (loadedIntentBundle != null) {
             loaded = loadedIntentBundle.getBoolean(MainActivity.DICTIONARY_LOADED);
         }
@@ -294,13 +290,14 @@ public class GeneratePassword extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_load_dictionaries:
                 Intent intent = new Intent(this,MainActivity.class);
+                intent.putExtra(MainActivity.DICTIONARY_LOADED, loaded);
                 startActivity(intent);
                 finish();
                 return true;
 
             case R.id.action_saved_passwords:
                 Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
-                displaySavedPasses.putExtra(MainActivity.DICTIONARY_LOADED, true);
+                displaySavedPasses.putExtra(MainActivity.DICTIONARY_LOADED, loaded);
                 startActivity(displaySavedPasses);
                 finish();
                 return true;

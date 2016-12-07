@@ -26,6 +26,7 @@
     <string name="presetDictionary">Use Preset Dictionary</string>
     <string name="action_settings">Settings</string>
     <string name="passListInfoText">Stored Pass Phrases:</string>
+    <string name="genPassTitleText">Create Pass Phrases:</string>
     <string name="spaceToggleInfo">Include Spaces?</string>
     <string name="spacedInfoText">Spaces actually add security, when allowed.</string>
 </resources>

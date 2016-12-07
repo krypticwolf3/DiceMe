@@ -26,14 +26,8 @@ public class MainActivity extends AppCompatActivity {
     public static HashMap<Integer, String> dictionaryOfWords = new HashMap<>();
 
     private BufferedReader read;
-    private Button presetDictionary;
-    private Button userDictionary;
     private Context c = MainActivity.this;
-    private String stringLine = "";
-    private String[] word;
-    private int key;
-    private String value;
-    private boolean loaded = false;
+    private boolean loaded;
     private static final int READ_REQUEST_CODE = 42; //google bs
 
     @Override
@@ -43,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        presetDictionary = (Button)findViewById(R.id.presetDicBtn); //preset Dictionary btn
-        userDictionary = (Button)findViewById(R.id.userDicBtn); //import dictionary btn
+        Button presetDictionary = (Button)findViewById(R.id.presetDicBtn); //preset Dictionary btn
+        Button userDictionary = (Button)findViewById(R.id.userDicBtn); //import dictionary btn
+
+        Bundle loadedIntentBundle = getIntent().getExtras();
+        loaded = (loadedIntentBundle != null) && (loadedIntentBundle.getBoolean(DICTIONARY_LOADED));
 
         /**
          * When this event triggers, it will read the preset raw file known as "dictionary.txt"
@@ -95,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
      * Start the generate password activity where the user can generate a unique password
      */
     private void startGenPassActivity(){
-        Intent intent = new Intent(this,GeneratePassword.class);
+        Intent intent = new Intent(this, GeneratePassword.class);
+        intent.putExtra(DICTIONARY_LOADED, loaded);
         startActivity(intent);
     }
 
@@ -172,12 +170,12 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(BufferedReader... reader){
 
             try {
-                stringLine = read.readLine();
+                String stringLine = read.readLine();
 
                 while(stringLine != null) {
-                    word = stringLine.split("\\s+");
-                    key = Integer.parseInt(word[0]);
-                    value = word[1];
+                    String[] word = stringLine.split("\\s+");
+                    int key = Integer.parseInt(word[0]);
+                    String value = word[1];
                     dictionaryOfWords.put(key, value);
                     //Log.d("userDic", "Key,value: " + key + " " + dictionaryOfWords.get(key));
 
@@ -192,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... progress){
+            // TODO: Find remedy for deprecated code.
             setProgress(progress[0]);
             Log.d("AsyncTask","Progress: " + progress[0].toString());
 
@@ -233,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                 // Go to make new passwords.
                 if (loaded) {
                     Intent generatePasses = new Intent(this, GeneratePassword.class);
-                    generatePasses.putExtra(DICTIONARY_LOADED, true);
+                    generatePasses.putExtra(DICTIONARY_LOADED, loaded);
                     startActivity(generatePasses);
                     finish();
                     return true;
@@ -246,16 +245,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_saved_passwords:
                 // View your saved passwords.
                 Intent displaySavedPasses = new Intent(this, DisplaySavedPasses.class);
-
-                if(loaded) {
-                    displaySavedPasses.putExtra(DICTIONARY_LOADED, true);
-                } else {
-                    displaySavedPasses.putExtra(DICTIONARY_LOADED, false);
-                }
-
-                Toast.makeText(this, "Viewing saved passwords.",
-                        Toast.LENGTH_LONG).show();
+                displaySavedPasses.putExtra(DICTIONARY_LOADED, loaded);
                 startActivity(displaySavedPasses);
+
+                Toast.makeText(getApplicationContext(), "Viewing saved passwords.",
+                        Toast.LENGTH_LONG).show();
 
                 finish();
                 return true;
