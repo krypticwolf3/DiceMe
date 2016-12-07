@@ -13,15 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class DisplaySavedPasses extends AppCompatActivity {
 
+    private boolean loaded;
     private SQLiteDatabase db;
     private SQLSimple dbHelper;
     private Cursor dbCursor;
     private ListView arrayHolder;
+    private Bundle loadedIntentBundle;
     private SimpleCursorAdapter listedCategoriesAdapter;
 
     @Override
@@ -46,10 +50,15 @@ public class DisplaySavedPasses extends AppCompatActivity {
          * Read data from the database, should one exist, and display saved items.
          */
 
+        loadedIntentBundle = getIntent().getExtras();
+        if (loadedIntentBundle != null) {
+            loaded = loadedIntentBundle.getBoolean(MainActivity.DICTIONARY_LOADED);
+        }
+
         dbHelper = new SQLSimple(this);
         db = dbHelper.getReadableDatabase();
 
-       /*
+        /*
          * Build the user interface here.
          */
         if (db == null) {
@@ -61,7 +70,7 @@ public class DisplaySavedPasses extends AppCompatActivity {
             dbCursor = db.rawQuery(query, null);
 
             // TEST CODE:
-            Toast.makeText(this, "LOADING PASSES INTO DISPLAY LIST.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "LOADING PASSES INTO DISPLAY LIST.", Toast.LENGTH_LONG).show();
 
             // Add the queried data to the ListView.
             arrayHolder = (ListView) findViewById(R.id.listViewForDisplayPasses);
@@ -93,6 +102,8 @@ public class DisplaySavedPasses extends AppCompatActivity {
                     ClipData clip = ClipData.newPlainText("copyPass", data);
                     clipboardManager.setPrimaryClip(clip);
                     Toast.makeText(DisplaySavedPasses.this, "PASSWORD COPIED TO CLIPBOARD", Toast.LENGTH_SHORT).show();
+
+                    //TODO: Maybe add an alert dialog to choose copying or deleting of entry.
                 }
             });
 
@@ -136,6 +147,7 @@ public class DisplaySavedPasses extends AppCompatActivity {
 
         // Close the connections to the database.
         dbHelper.close();
+        dbCursor.close();
         db.close();
     }
 
@@ -156,21 +168,26 @@ public class DisplaySavedPasses extends AppCompatActivity {
                 finish();
                 return true;
 
-            case R.id.action_savedPasswords:
-                Toast.makeText(this, "Any saved passwords are displayed below.",
+            case R.id.action_saved_passwords:
+                Toast.makeText(this, "Any saved passwords are currently displayed.",
                         Toast.LENGTH_LONG).show();
 
-            case R.id.action_generate_passwords:
-                Intent generatePasses = new Intent(this,GeneratePassword.class);
-                startActivity(generatePasses);
-                finish();
                 return true;
 
+            case R.id.action_generate_passwords:
+                if (loaded) {
+                    Intent generatePasses = new Intent(this, GeneratePassword.class);
+                    startActivity(generatePasses);
+                    finish();
+                    return true;
+                }
+
+                Toast.makeText(this, "Pick a dictionary first.", Toast.LENGTH_LONG).show();
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 }

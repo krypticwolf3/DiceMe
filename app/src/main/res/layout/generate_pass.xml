@@ -8,8 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true">
+        android:layout_height="wrap_content" >
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/my_toolbar"
@@ -20,18 +19,18 @@
 
         <!-- Pass Option Section -->
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
             android:text="@string/instNumOfWords"
             android:layout_marginTop="71dp"
             android:layout_below="@+id/my_toolbar"
             android:layout_centerHorizontal="true" />
 
         <Spinner
+            android:id="@+id/wordNumSpinner"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:id="@+id/wordNumSpinner"
             android:entries="@array/numberOfWords"
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true" />
@@ -57,38 +56,38 @@
 
         <!-- Display Pass Section -->
         <Button
-            android:text="@string/generatePassword"
-            android:layout_height="45dp"
-            android:layout_width="match_parent"
             android:id="@+id/genPassBtn"
+            android:text="@string/generatePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginTop="100dp"
             android:layout_below="@+id/spacedInfoTextView"
-            android:layout_alignParentStart="true" />
+            android:layout_centerHorizontal="true" />
 
 
         <TextView
+            android:id="@+id/passwordOutputTextView"
             android:hint="@string/displayPassHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/passwordOutputTextView"
             android:layout_below="@+id/passwordTextView"
             android:layout_centerHorizontal="true" />
 
         <TextView
+            android:id="@+id/passwordTextView"
             android:text="@string/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/passwordTextView"
             android:layout_marginTop="9dp"
             android:layout_below="@+id/genPassBtn"
             android:layout_centerHorizontal="true" />
 
         <!-- Save Pass Section -->
         <Button
-            android:text="@string/savePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/savePassword"
+            android:text="@string/savePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/passwordOutputTextView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp" />

@@ -53,6 +53,8 @@ public class GeneratePassword extends AppCompatActivity {
     private String desiredCategory;
     private SQLSimple dbHelper;
     private SQLiteDatabase db;
+    private Bundle loadedIntentBundle;
+    private boolean loaded;
 
     // Keywords used to save the current instance for the user.
     private static final String STORE_PASS = "pass";
@@ -70,6 +72,11 @@ public class GeneratePassword extends AppCompatActivity {
         spaceSwitch = (Switch) findViewById(R.id.spaceToggleSwitch);
         numOfWordsSpinner = (Spinner)findViewById(R.id.wordNumSpinner);
         passOutputTextView = (TextView)findViewById(R.id.passwordOutputTextView);
+
+        loadedIntentBundle = getIntent().getExtras();
+        if (loadedIntentBundle != null) {
+            loaded = loadedIntentBundle.getBoolean(MainActivity.DICTIONARY_LOADED);
+        }
 
         spaced = true;
         atDialog = false;
@@ -101,13 +108,7 @@ public class GeneratePassword extends AppCompatActivity {
 
         spaceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    spaced = true;
-                } else {
-                    // The toggle is disabled
-                    spaced = false;
-                }
+                spaced = isChecked;
             }
         });
 
@@ -151,9 +152,9 @@ public class GeneratePassword extends AppCompatActivity {
 
                         String query = "SELECT Label FROM " + SQLSimple.TABLE_NAME + " WHERE Label='"+desiredCategory+"'";
                         Cursor cursor = db.rawQuery(query,null);
-                        Log.e("Category Count",  ""+ cursor.getCount());
+                        Log.e("Category Count",  "" + cursor.getCount());
 
-                        System.out.println("CHECK: " + DatabaseUtils.dumpCursorToString(cursor));
+                        //System.out.println("CHECK: " + DatabaseUtils.dumpCursorToString(cursor));
 
                         // check to see how many of intented category is already present.
                         //if more than 0, then ask user to override
@@ -166,13 +167,15 @@ public class GeneratePassword extends AppCompatActivity {
                             db.insert(SQLSimple.TABLE_NAME, null, cv);
                             close = true;
                         }
+
+                        // Close the cursor to avoid memory leaks.
+                        cursor.close();
+
                         if(close){
                             alertDialog.dismiss();
                         }
                     }
                 });
-
-                atDialog = false;
             }
         });
 
@@ -249,6 +252,8 @@ public class GeneratePassword extends AppCompatActivity {
         // Avoid crashing because the alert dialog is open.
         if(alertDialog.isShowing()) {
             alertDialog.dismiss();
+        } else {
+            atDialog = false;
         }
 
         // Close the connections to the database.
@@ -260,14 +265,13 @@ public class GeneratePassword extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        // If the user was at the alert dialong, show it again.
+        // If the user was at the alert dialog, show it again.
         if (atDialog) {
             Toast.makeText(this, "ATTEMPTING TO SHOW THE ALERT AGAIN.", Toast.LENGTH_LONG).show();
             alertDialog.show();
         }
 
         // Reopen the connections to the database.
-        dbHelper = new SQLSimple(this);
         db = dbHelper.getWritableDatabase();
     }
 
@@ -294,8 +298,9 @@ public class GeneratePassword extends AppCompatActivity {
                 finish();
                 return true;
 
-            case R.id.action_savedPasswords:
+            case R.id.action_saved_passwords:
                 Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
+                displaySavedPasses.putExtra(MainActivity.DICTIONARY_LOADED, true);
                 startActivity(displaySavedPasses);
                 finish();
                 return true;
@@ -308,7 +313,6 @@ public class GeneratePassword extends AppCompatActivity {
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 }

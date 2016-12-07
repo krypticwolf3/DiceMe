@@ -21,7 +21,10 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String DICTIONARY_LOADED = "Is_one_loaded";
     public static HashMap<Integer, String> dictionaryOfWords = new HashMap<>();
+
     private BufferedReader read;
     private Button presetDictionary;
     private Button userDictionary;
@@ -30,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private String[] word;
     private int key;
     private String value;
-    private static boolean loaded = false;
+    private boolean loaded = false;
     private static final int READ_REQUEST_CODE = 42; //google bs
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-        //mi.setIcon(R.drawable.ic_action_name);
 
         presetDictionary = (Button)findViewById(R.id.presetDicBtn); //preset Dictionary btn
         userDictionary = (Button)findViewById(R.id.userDicBtn); //import dictionary btn
@@ -54,14 +55,21 @@ public class MainActivity extends AppCompatActivity {
         presetDictionary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputStream file = c.getResources().openRawResource(R.raw.dictionary); //name of the preset dictionary file
-                read = new BufferedReader(new InputStreamReader(file));
-                try {
-                    new loadDictionary().execute(read);
-                    loaded = true;
+                if (!loaded) {
+                    InputStream file = c.getResources().openRawResource(R.raw.dictionary); //name of the preset dictionary file
+                    read = new BufferedReader(new InputStreamReader(file));
+                    try {
+                        new loadDictionary().execute(read);
+                        loaded = true;
+                        startGenPassActivity();
+                        finish();
+                    } catch (Exception e) {
+                        Log.d("AsyncTask", "AsyncFailure, trace: " + e);
+                    }
+                } else {
+                    // The preset dictionary is already in use.
                     startGenPassActivity();
-                }catch (Exception e){
-                    Log.d("AsyncTask","AsyncFailure, trace: " + e);
+                    finish();
                 }
             }
         });
@@ -126,19 +134,18 @@ public class MainActivity extends AppCompatActivity {
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.
             // Pull that URI using resultData.getData().
-            Uri uri = null;
             if (resultData != null) {
-                uri = resultData.getData();
+                Uri uri = resultData.getData();
                 try{
                     InputStream inputStream = getContentResolver().openInputStream(uri);
-                    assert inputStream!=null;
+                    assert inputStream != null;
                     read = new BufferedReader(new InputStreamReader(
                             inputStream));
-                    Log.d("userDic","Uri :"+uri.getPath()+"\nreader: "+read);
+                    Log.d("userDic","Uri :" + uri.getPath() + "\nreader: " + read);
                     new loadDictionary().execute(read);
                     startGenPassActivity();
                 }catch (Exception e){
-                    Log.i("fileChoosingAnd", "ERROR:"+e);
+                    Log.i("fileChoosingAnd", "ERROR:" + e);
                 }
                 Log.i("fileChoosingAnd", "Uri: " + uri.toString());
             }
@@ -163,17 +170,22 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(BufferedReader... reader){
-            while(stringLine !=null) {
-                try {
-                    stringLine = read.readLine();
+
+            try {
+                stringLine = read.readLine();
+
+                while(stringLine != null) {
                     word = stringLine.split("\\s+");
                     key = Integer.parseInt(word[0]);
                     value = word[1];
                     dictionaryOfWords.put(key, value);
-                    Log.d("userDic", "Key,value: " + key + " " + dictionaryOfWords.get(key));
-                } catch (Exception e) {
-                    Log.d("fileReading", "FILE COULD NOT BE READ WTF");
+                    //Log.d("userDic", "Key,value: " + key + " " + dictionaryOfWords.get(key));
+
+                    stringLine = read.readLine();
                 }
+            } catch (Exception e) {
+                Log.d("fileReading", e.toString());
+                Log.d("fileReading", "FILE COULD NOT BE READ WTF");
             }
             return result;
         }
@@ -181,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... progress){
             setProgress(progress[0]);
-            Log.d("AsyncTask","Progress: "+progress[0].toString());
+            Log.d("AsyncTask","Progress: " + progress[0].toString());
 
         }
 
@@ -189,6 +201,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String dicName){
             Toast.makeText(getApplicationContext()," Dictionary Loaded",
                     Toast.LENGTH_SHORT).show();
+
+            try {
+                read.close();
+            } catch (Exception e) {
+                Log.d("onPostExecute", e.toString());
+                Log.d("onPostExecute", "COULD NOT CLOSE THE READER.");
+            }
         }
     }
 
@@ -205,42 +224,40 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.action_load_dictionaries:
-                if (loaded) {
-                    Intent loadDictionary = new Intent(this, MainActivity.class);
-                    startActivity(loadDictionary);
-                    finish();
-                    return true;
-                }
-
-                Toast.makeText(this,
-                        "Your choices are displayed already.",
+                // The user is already where they would pick a dictionary.
+                Toast.makeText(this, "Your choices are displayed already.",
                         Toast.LENGTH_LONG).show();
                 return true;
 
             case R.id.action_generate_passwords:
+                // Go to make new passwords.
                 if (loaded) {
                     Intent generatePasses = new Intent(this, GeneratePassword.class);
+                    generatePasses.putExtra(DICTIONARY_LOADED, true);
                     startActivity(generatePasses);
                     finish();
                     return true;
                 }
 
-                Toast.makeText(this,
-                        "Pick a pre-loaded or custom dictionary first.",
+                Toast.makeText(this, "Pick a pre-set or custom dictionary first.",
                         Toast.LENGTH_LONG).show();
                 return true;
 
-            case R.id.action_savedPasswords:
-                if (loaded) {
-                    Intent displaySavedPasses = new Intent(this,DisplaySavedPasses.class);
-                    startActivity(displaySavedPasses);
-                    //finish();
-                    return true;
+            case R.id.action_saved_passwords:
+                // View your saved passwords.
+                Intent displaySavedPasses = new Intent(this, DisplaySavedPasses.class);
+
+                if(loaded) {
+                    displaySavedPasses.putExtra(DICTIONARY_LOADED, true);
+                } else {
+                    displaySavedPasses.putExtra(DICTIONARY_LOADED, false);
                 }
 
-                Toast.makeText(this,
-                        "Pick a pre-loaded or custom dictionary first.",
+                Toast.makeText(this, "Viewing saved passwords.",
                         Toast.LENGTH_LONG).show();
+                startActivity(displaySavedPasses);
+
+                finish();
                 return true;
 
             default:

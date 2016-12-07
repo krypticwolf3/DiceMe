@@ -13,7 +13,7 @@ import java.util.Random;
  * Created by ivan on 11/28/16.
  */
 
-public class Diceware {
+class Diceware {
     private int numberOfWords;
     private HashMap<Integer,String> map;
     private String password;
@@ -29,7 +29,7 @@ public class Diceware {
      * @param dictionary - A hashmap which will be the dictionary in which to grab values from
      * @param binaryChoice - A boolean used to track if spaces should be added to the password
      */
-    public Diceware(int words, HashMap<Integer, String> dictionary, boolean binaryChoice){
+    Diceware(int words, HashMap<Integer, String> dictionary, boolean binaryChoice){
         this.numberOfWords = words;
         this.map = dictionary;
         this.spaces = binaryChoice;
@@ -104,7 +104,7 @@ public class Diceware {
      * Returns the unique generated password
      * @return a String type, which is the password
      */
-    public String getPassword(){
+    String getPassword(){
         return password;
     }
 }

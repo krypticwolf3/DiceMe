@@ -14,7 +14,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_savedPasswords"
+        android:id="@+id/action_saved_passwords"
         android:title="@string/savedPasswords"
         android:icon="@drawable/ic_action_white_key"
         app:showAsAction="ifRoom" />
