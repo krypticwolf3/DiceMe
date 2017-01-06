@@ -61,8 +61,8 @@ class Diceware {
                         num = rand.nextInt((MAX - MIN) + 1) + MIN;
                         index = index + Integer.toString(num);
                     }
-                    Log.d("diceware", "index: " + index);
-                    Log.d("diceWare", "diceWareMap: " + index + " " + map.get(Integer.parseInt(index)));
+                    //Log.d("diceware", "index: " + index);
+                    //Log.d("diceWare", "diceWareMap: " + index + " " + map.get(Integer.parseInt(index)));
                     words = words + map.get(Integer.parseInt(index));
                     if (words.contains("null")) {
                         Log.d("diceWare", "PASSWORD IS NULL");
@@ -72,8 +72,8 @@ class Diceware {
                         num = rand.nextInt((MAX - MIN) + 1) + MIN;
                         index = index + Integer.toString(num);
                     }
-                    Log.d("diceware", "index: " + index);
-                    Log.d("diceWare", "diceWareMap: " + index + " " + map.get(Integer.parseInt(index)));
+                    //Log.d("diceware", "index: " + index);
+                    //Log.d("diceWare", "diceWareMap: " + index + " " + map.get(Integer.parseInt(index)));
                     words = words + " " + map.get(Integer.parseInt(index));
                     if (words.contains("null")) {
                         Log.d("diceWare", "PASSWORD IS NULL");
@@ -86,8 +86,8 @@ class Diceware {
                     num = rand.nextInt((MAX - MIN) + 1) + MIN;
                     index = index + Integer.toString(num);
                 }
-                Log.d("diceware", "index: " + index);
-                Log.d("diceWare", "diceWareMap: " + index + " " + map.get(Integer.parseInt(index)));
+                //Log.d("diceware", "index: " + index);
+                //Log.d("diceWare", "diceWareMap: " + index + " " + map.get(Integer.parseInt(index)));
                 words = words + map.get(Integer.parseInt(index));
                 if (words.contains("null")) {
                     Log.d("diceWare", "PASSWORD IS NULL");

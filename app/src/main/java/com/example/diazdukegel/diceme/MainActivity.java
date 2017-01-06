@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 performFileSearch();
-                loaded = true;
             }
         });
     }
@@ -139,13 +138,15 @@ public class MainActivity extends AppCompatActivity {
                     assert inputStream != null;
                     read = new BufferedReader(new InputStreamReader(
                             inputStream));
-                    Log.d("userDic","Uri :" + uri.getPath() + "\nreader: " + read);
+                    //Log.d("userDic","Uri :" + uri.getPath() + "\nreader: " + read);
                     new loadDictionary().execute(read);
+
+                    loaded = true;
                     startGenPassActivity();
                 }catch (Exception e){
-                    Log.i("fileChoosingAnd", "ERROR:" + e);
+                    Log.e("fileChoosingAnd", "ERROR:" + e);
                 }
-                Log.i("fileChoosingAnd", "Uri: " + uri.toString());
+                //Log.i("fileChoosingAnd", "Uri: " + uri.toString());
             }
         }
     }

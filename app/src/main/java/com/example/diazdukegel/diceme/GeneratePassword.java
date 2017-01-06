@@ -35,8 +35,9 @@ import java.util.HashMap;
  */
 
 public class GeneratePassword extends AppCompatActivity {
-    private HashMap<Integer,String> dictionary;
+
     MainActivity main;
+    private HashMap<Integer,String> dictionary;
     private Button saveButton;
     private Button overrideButton;
     private Diceware dicePass;
