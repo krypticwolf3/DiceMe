@@ -113,7 +113,7 @@ public class GeneratePassword extends AppCompatActivity {
             public void onClick(View v) {
                 main = new MainActivity();
                 numOfWords = Integer.parseInt(numOfWordsSpinner.getSelectedItem().toString());
-                Log.d("numOfWOrds", "NumOfWOrds" + Integer.toString(numOfWords));
+                //Log.d("numOfWOrds", "NumOfWOrds" + Integer.toString(numOfWords));
                 dictionary = main.getDictionary();
                 dicePass = new Diceware(numOfWords, dictionary, spaced);
                 passwordOutput = dicePass.getPassword();
@@ -213,7 +213,7 @@ public class GeneratePassword extends AppCompatActivity {
                 /* End of Tom's code. */
 
                 Toast.makeText(GeneratePassword.this, "CATEGORY: " + desiredCategory +
-                        " OVERWRITTEN",Toast.LENGTH_SHORT).show();
+                        " OVERWRITTEN", Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });

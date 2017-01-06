@@ -21,35 +21,33 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+/**
+ * DisplaySavedPasses - This class is used to define and display the section of DiceMe where users
+ *                      may view, copy, or delete their saved passwords previously generated.
+ */
+
 public class DisplaySavedPasses extends AppCompatActivity {
 
-    private boolean loaded;
-    private SQLiteDatabase db;
-    private SQLSimple dbHelper;
-    private Cursor dbCursor;
-    private ListView arrayHolder;
-    private SimpleCursorAdapter listedCategoriesAdapter;
-    private int currPosition;
-    AlertDialog alertDialog;
-    private String deleteCategory;
+    private boolean loaded;         // Flag tracking if a dictionary is loaded.
+    private SQLiteDatabase db;      // Database object
+    private SQLSimple dbHelper;     // Database helper object
+    private Cursor dbCursor;        // Cursors can iterate through a database to find elements
+    private ListView arrayHolder;   // The view framework for listing items on screen
+    private SimpleCursorAdapter listedCategoriesAdapter; // Holds the results of a cursor search
+    private int currPosition;       // Holds which item of the list is selected
+    private String deleteCategory;  // Used to temporarily save the category to be deleted.
+    AlertDialog alertDialog;        // Object that is used for a popup option message.
 
+    /**
+     * onCreate - Runs any time an instance of this activity is first opened (multiples possible)
+     * @param savedInstanceState - the data bundle automatically generated, which we can add to.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_saved_passes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
 
         /*
          * Read data from the database, should one exist, and display saved items.
@@ -86,14 +84,6 @@ public class DisplaySavedPasses extends AppCompatActivity {
                     new int[]{android.R.id.text1,android.R.id.text2},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-            /*
-            listedCategoriesAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_1, dbCursor,
-                    new String[]{SQLSimple.COL_NAME},
-                    new int[]{android.R.id.text1},
-                    CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-            */
-
             // Associate the array layout with the adapter.
             arrayHolder.setAdapter(listedCategoriesAdapter);
 
@@ -107,8 +97,6 @@ public class DisplaySavedPasses extends AppCompatActivity {
                     ClipData clip = ClipData.newPlainText("copyPass", data);
                     clipboardManager.setPrimaryClip(clip);
                     Toast.makeText(DisplaySavedPasses.this, "PASSWORD COPIED TO CLIPBOARD", Toast.LENGTH_SHORT).show();
-
-                    //TODO: Maybe add an alert dialog to choose copying or deleting of entry.
                 }
             });
 
@@ -129,11 +117,9 @@ public class DisplaySavedPasses extends AppCompatActivity {
                             break;
                         default:
                             break;
-
                     }
                 }
             };
-
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this); //create alert dialog when deleting
             builder.setTitle("Are You Sure You Want to Remove This?");
@@ -154,11 +140,15 @@ public class DisplaySavedPasses extends AppCompatActivity {
                 }
             });
 
-
             listedCategoriesAdapter.notifyDataSetChanged();
         }
     }
 
+    /**
+     * onResume - called every time this activity is resumed (i.e. after paused and then comes
+     *              back into focus/use by the user).  It's main purpose, currently, is to reopen
+     *              the program's database connections to properly store saved passwords.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -170,25 +160,20 @@ public class DisplaySavedPasses extends AppCompatActivity {
         dbCursor = db.rawQuery(query, null);
 
         // Load the data into the ListView.
-        /*
-        listedCategoriesAdapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_1, dbCursor,
-                new String[]{SQLSimple.COL_NAME},
-                new int[]{android.R.id.text1},
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        */
-
         listedCategoriesAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.two_line_list_item, dbCursor,
                 new String[]{SQLSimple.COL_NAME,SQLSimple.COL_PASS},
                 new int[]{android.R.id.text1,android.R.id.text2},
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-
         // Associate the array layout with the adapter.
         arrayHolder.setAdapter(listedCategoriesAdapter);
     }
 
+    /**
+     * onPause - called every time the program loses focus or is closed. Currently only used to
+     *              close the program's database connections to avoid memory leaks.
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -199,6 +184,11 @@ public class DisplaySavedPasses extends AppCompatActivity {
         db.close();
     }
 
+    /**
+     * onCreateOptionsMenu - standard memu setup.
+     * @param menu - uses a standard menu object that is automatically given.
+     * @return - always returns true.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -207,6 +197,11 @@ public class DisplaySavedPasses extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * onOptionsItemSelected - custom menu options used to open up other sections of the app
+     * @param item - uses the standard MenuItem given automatically.
+     * @return boolean - true unless errors occur.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
